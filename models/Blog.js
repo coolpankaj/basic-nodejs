@@ -52,4 +52,5 @@ let blogSchema = new Schema(
 
 )
 
-mongoose.model('Blog', blogSchema);
+var Blog = mongoose.model('Blog', blogSchema);
+exports = Blog;
