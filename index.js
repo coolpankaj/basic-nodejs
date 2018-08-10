@@ -17,6 +17,15 @@ app.use(bodyParser.urlencoded({ extended : false }))
 app.use(cookieParser())
 
 
+
+// Bootstrap models
+let modelsPath = './models';
+fs.readdirSync(modelsPath).forEach(function (file) {
+    if (~file.indexOf('.js')) require(modelsPath + '/' + file )
+}) // end Bottstrap models 
+
+
+
 // Bootstrap Route
 let routesPath = './routes';
 fs.readdirSync(routesPath).forEach(function (file) {
@@ -28,11 +37,6 @@ fs.readdirSync(routesPath).forEach(function (file) {
     }
 }); // end bootstrap route
 
-// Bootstrap models
-let modelsPath = './models';
-fs.readdirSync(modelsPath).forEach(function (file) {
-    if (~file.indexOf('.js')) require(modelsPath + '/' + file )
-}) // end Bottstrap models 
 
 // listening the server
 app.listen(appConfig.port, () => {

@@ -40,6 +40,7 @@ let blogSchema = new Schema(
             default: ''
         },
         tags: [],
+        
         created: {
             type: Date,
             default: Date.now
@@ -52,5 +53,7 @@ let blogSchema = new Schema(
 
 )
 
-var Blog = mongoose.model('Blog', blogSchema);
-exports = Blog;
+mongoose.model('Blog', blogSchema);
+
+// var Blog = mongoose.model('Blog', blogSchema);
+// exports = Blog;

@@ -1,14 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const shortid = require('shortid')
 
-// importing model here
-// const BlogModel = mongoose.model('Blog')
-const BlogModel = require('./../models/Blog')
+// importing model 
+const BlogModel = mongoose.model('Blog')
+//  const BlogModel = require('./../models/Blog')
 
 
 let getAllBlog = (req, res) => {
     BlogModel.find()
-        .select('- __v -_id')
+         .select('-__v -_id')
         .lean()
         .exec((err, result) => {
             if (err) {
@@ -16,6 +17,7 @@ let getAllBlog = (req, res) => {
                 res.send(err)
             } else if (result == undefined || result == null || result == '') {
                 console.log(`No Blog Found`);
+                res.send('No Blog Found');
             } else {
                 console.log(`result: ${result}`);
                 res.send(result);
@@ -30,7 +32,7 @@ let viewByBlogId = (req, res) => {
             res.send(err);
         } else if (result == undefined || result == null || result == '') {
             console.log(`No Blog Found`);
-            req.send("No Blog Found");
+            res.send("No Blog Found");
         } else {
             res.send(result);
         }
@@ -106,6 +108,7 @@ let deleteBlog = (req, res) => {
     })
 }
 
+// creating blog 
 
 let createBlog = (req, res) => {
     var today = Date.now()
@@ -124,20 +127,19 @@ let createBlog = (req, res) => {
         lastModified: today
     }) // end new blog model
 
+    let tags = (req.body.tags != undefined && req.body.tags != null && req.body.tags != '') ? req.body.tags.split(',') : []
+    newBlog.tags = tags
+
+    newBlog.save((err, result) => {
+        if (err) {
+            console.log(err)
+            res.send(err)
+        } else {
+            res.send(result)
+
+        }
+    }) // end new blog save
 }
-
-let tags = (req.body.tags !== undefined && req.body.tags !== null && req.body.tags !== '') ? req.body.tags.split(',') : []
-newBlog.tags = tags;
-
-newBlog.save((err, result) => {
-    if (err) {
-        console.log(err)
-        res.send(err)
-    } else {
-        res.send(result)
-
-    }
-}) // end new blog save
 
 
 /**
