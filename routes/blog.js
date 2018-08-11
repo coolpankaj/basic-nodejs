@@ -1,6 +1,10 @@
 const express = require('express')
 const blogController = require('./../controllers/blogController')
 const appConfig = require('./../config/appConfig')
+
+// let example = require('./../middlewares/example')
+
+
 let setRouter = (app) => {   
   
     /* app.get('/test/route/:param1/:param2', blogController.testRoute); // Route parameter

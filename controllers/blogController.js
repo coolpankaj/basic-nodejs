@@ -9,7 +9,7 @@ const BlogModel = mongoose.model('Blog')
 
 let getAllBlog = (req, res) => {
     BlogModel.find()
-         .select('-__v -_id')
+        .select('-__v -_id')
         .lean()
         .exec((err, result) => {
             if (err) {
@@ -26,6 +26,7 @@ let getAllBlog = (req, res) => {
 } // end of get all blogs
 
 let viewByBlogId = (req, res) => {
+    console.log(req.user)
     BlogModel.findOne({ "blogId": req.params.blogId }, (err, result) => {
         if (err) {
             console.log(err);
@@ -41,7 +42,7 @@ let viewByBlogId = (req, res) => {
 }
 
 let viewByCategory = (req, res) => {
-    BlogModel.find({ "category": req.params.category }, (err, res) => {
+    BlogModel.find({ "category": req.params.category }, (err, result) => {
         if (err) {
             console.log(err);
             res.send(err);

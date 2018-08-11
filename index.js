@@ -5,6 +5,8 @@ const fs = require('fs')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const globalErrorMiddleware = require('./middlewares/appErrorHandler')
+const routeLoggerMiddleware = require('./middlewares/routeLogger')
 
 
 // declaring an instance or creating an application instance
@@ -15,6 +17,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false }))
 app.use(cookieParser())
+
+app.use(globalErrorMiddleware.globalErrorHandler)
+app.use(routeLoggerMiddleware.logIp)
 
 
 
@@ -36,6 +41,10 @@ fs.readdirSync(routesPath).forEach(function (file) {
         route.setRouter(app);
     }
 }); // end bootstrap route
+
+// calling global 404 handler after route
+app.use(globalErrorMiddleware.globalNotFoundHandler)
+// end of global error handler
 
 
 // listening the server
