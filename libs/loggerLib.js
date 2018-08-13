@@ -1,5 +1,6 @@
 const logger = require('pino')()
 const moment = require('moment')
+const time = require('./../libs/timeLib')
 
 let captureError = (errorMessage, errorOrigin, errorLevel) => {
   let currentTime = moment()
@@ -19,7 +20,8 @@ let captureInfo = (message, origin, importance) => {
   let currentTime = moment()
 
   let infoMessage = {
-    timestamp: currentTime,
+    // timestamp: currentTime,
+    timestamp: time.convertToLocalTime(),
     message: message,
     origin: origin,
     level: importance

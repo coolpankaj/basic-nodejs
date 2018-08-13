@@ -1,5 +1,8 @@
 // importing ongoose modules
 const mongoose = require('mongoose')
+const time = require('./../libs/timeLib')
+var today = time.convertToLocalTime()
+console.log("\n Current Date: " + today + "\n")
 
 // import schema
 const Schema = mongoose.Schema;
@@ -42,12 +45,16 @@ let blogSchema = new Schema(
         tags: [],
         
         created: {
-            type: Date,
-            default: Date.now
+            //type: Date,            
+            //default: Date.now
+            type: String,
+            default: today
         },
         lastModified: {
-            type: Date,
-            default: Date.now
+           // type: Date,
+            // default: Date.now
+            type: String,
+            default: today
         }
     }
 

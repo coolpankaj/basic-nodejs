@@ -4,6 +4,8 @@ const time = require('./../libs/timeLib');
 const response = require('./../libs/responseLib')
 const logger = require('./../libs/loggerLib');
 const check = require('./../libs/checkLib')
+
+
 /* Models */
 const BlogModel = mongoose.model('Blog')
 
@@ -147,6 +149,7 @@ let editBlog = (req, res) => {
 
         let options = req.body;
         console.log(options);
+        options.lastModified = time.convertToLocalTime()
         BlogModel.update({ 'blogId': req.params.blogId }, options, { multi: true }).exec((err, result) => {
 
             if (err) {
@@ -245,11 +248,12 @@ let createBlog = (req, res) => {
                 reject(apiResponse)
             } else {
 
-                var today = Date.now()
+                // var today = Date.now()
+                 var today = time.convertToLocalTime()
+                 console.log("\n"+today)
                 let blogId = shortid.generate()
 
                 let newBlog = new BlogModel({
-
                     blogId: blogId,
                     title: req.body.title,
                     description: req.body.description,
@@ -259,10 +263,15 @@ let createBlog = (req, res) => {
                     author: req.body.fullName,
                     created: today,
                     lastModified: today
+                   
                 }) // end new blog model
+                
+
+                
 
                 let tags = (req.body.tags != undefined && req.body.tags != null && req.body.tags != '') ? req.body.tags.split(',') : []
                 newBlog.tags = tags
+                console.log("\n"+newBlog)
 
                 newBlog.save((err, result) => {
                     if (err) {
@@ -271,7 +280,7 @@ let createBlog = (req, res) => {
                         let apiResponse = response.generate(true, 'Error Occured.', 500, null)
                         reject(apiResponse)
                     } else {
-                        console.log('Success in blog creation')
+                        console.log('\n Success in blog creation')
                         resolve(result)
                     }
                 }) // end new blog save
@@ -350,6 +359,7 @@ module.exports = {
     viewByCategory: viewByCategory,
     viewByAuthor: viewByAuthor,
     editBlog: editBlog,
+    // editBlog: findBlogToEdit,
     deleteBlog: deleteBlog,
     increaseBlogView : increaseBlogView
 }// end exports
