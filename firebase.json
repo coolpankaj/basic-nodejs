@@ -1,0 +1,19 @@
+{
+  "database": {
+    "rules": "y"
+  },
+  "hosting": {
+    "public": "apidoc",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
