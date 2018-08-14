@@ -3,7 +3,8 @@ const moment = require('moment')
 const time = require('./../libs/timeLib')
 
 let captureError = (errorMessage, errorOrigin, errorLevel) => {
-  let currentTime = moment()
+  // let currentTime = moment()
+  let currentTime = time.convertToLocalTime()
 
   let errorResponse = {
     timestamp: currentTime,
@@ -17,7 +18,7 @@ let captureError = (errorMessage, errorOrigin, errorLevel) => {
 } // end captureError
 
 let captureInfo = (message, origin, importance) => {
-  let currentTime = moment()
+  // let currentTime = moment()
 
   let infoMessage = {
     // timestamp: currentTime,
